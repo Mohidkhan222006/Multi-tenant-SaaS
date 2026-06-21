@@ -267,8 +267,10 @@ export default function KanbanBoard() {
                     setCreateTaskOpen(true);
                   }}
                   className="p-1 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 transition-colors focus:outline-none"
+                  title="Add Task"
                 >
                   <Plus className="h-4 w-4" />
+                  <span className="sr-only">Add Task</span>
                 </button>
               </div>
 

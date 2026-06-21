@@ -4,17 +4,12 @@ test.describe('Aether Settings Page Validation', () => {
   test('should verify settings layout, billing status, members list, and invitation dialog', async ({ page }) => {
     // 1. Visit Login page and authenticate
     await page.goto('/login');
-    await page.fill('input[type="email"]', 'owner@example.com');
+    await page.fill('input[type="email"]', 'demo@example.com');
     await page.fill('input[type="password"]', 'password123');
     await page.click('button[type="submit"]');
 
-    // 2. Head directly to Onboarding (if no org exists yet)
-    // For local dev tests, we can onboarding or navigate directly.
-    // Let's handle onboarding first if it's visible, otherwise proceed
-    if (page.url().includes('/onboarding')) {
-      await page.fill('input[placeholder="e.g. Acme Corp"]', 'Acme Corporation');
-      await page.click('button[type="submit"]');
-    }
+    // Wait for the login redirect to resolve to the dashboard
+    await expect(page).toHaveURL(/\/dashboard/);
 
     // 3. Navigate to Settings page
     await page.goto('/settings');

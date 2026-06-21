@@ -21,6 +21,19 @@ async function main() {
 
   console.log(`Created user: ${user.email}`);
 
+  // 1b. Create Owner User for E2E Tests (initially has no organization)
+  const owner = await prisma.user.upsert({
+    where: { email: 'owner@example.com' },
+    update: {},
+    create: {
+      email: 'owner@example.com',
+      name: 'Owner User',
+      passwordHash,
+    },
+  });
+
+  console.log(`Created owner user: ${owner.email}`);
+
   // 2. Create Organization
   const org = await prisma.organization.upsert({
     where: { slug: 'demo-workspace' },
