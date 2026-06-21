@@ -116,12 +116,12 @@ export default function SettingsPage() {
   const isPro = orgData?.data?.plan === 'pro';
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 font-sans p-6 md:p-12 select-none relative overflow-hidden">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-sans p-6 md:p-12 select-none relative overflow-hidden transition-colors duration-200">
       {/* Back to Dashboard */}
       <div className="max-w-4xl mx-auto mb-8">
         <button
           onClick={() => router.push('/dashboard')}
-          className="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-slate-200 transition-colors focus:outline-none"
+          className="inline-flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 transition-colors focus:outline-none"
         >
           <ArrowLeft className="h-4 w-4" /> Back to Dashboard
         </button>
@@ -130,8 +130,8 @@ export default function SettingsPage() {
       <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 relative z-10">
         {/* Navigation Sidebar */}
         <div className="flex flex-col gap-1">
-          <h2 className="text-xl font-bold tracking-tight text-slate-100 mb-6">Workspace Settings</h2>
-          <div className="px-3 py-2 rounded-xl bg-slate-900/40 text-zinc-400 border border-slate-800 text-sm font-semibold flex items-center gap-3">
+          <h2 className="text-xl font-bold tracking-tight text-slate-800 dark:text-slate-100 mb-6">Workspace Settings</h2>
+          <div className="px-3 py-2 rounded-xl bg-white dark:bg-slate-900/40 text-slate-700 dark:text-zinc-400 border border-slate-200 dark:border-slate-800 text-sm font-semibold flex items-center gap-3 shadow-sm">
             <Shield className="h-4.5 w-4.5" /> General & Members
           </div>
         </div>
@@ -139,25 +139,27 @@ export default function SettingsPage() {
         {/* Settings Body */}
         <div className="md:col-span-2 flex flex-col gap-8">
           {/* Subscription Section */}
-          <div className="border border-slate-900 bg-slate-900/20 rounded-2xl p-6">
+          <div className="border border-slate-200 dark:border-slate-900 bg-white dark:bg-slate-900/20 rounded-2xl p-6 shadow-sm">
             <div className="flex items-start justify-between gap-4 mb-4">
               <div>
-                <h3 className="text-base font-semibold text-slate-200">Billing Plan</h3>
+                <h3 className="text-base font-semibold text-slate-800 dark:text-slate-200">Billing Plan</h3>
                 <p className="text-xs text-slate-500 mt-1">
                   Manage your subscription tier, billing invoices, and plan seat limits.
                 </p>
               </div>
               <span className={`px-2.5 py-1 rounded-xl text-3xs font-extrabold uppercase tracking-wider border ${
-                isPro ? 'bg-zinc-800/10 border-zinc-700/20 text-zinc-400' : 'bg-slate-900 border-slate-800 text-slate-400'
+                isPro 
+                  ? 'bg-zinc-100 dark:bg-zinc-800/10 border-zinc-300 dark:border-zinc-700/20 text-zinc-600 dark:text-zinc-400' 
+                  : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400'
               }`}>
                 {isPro ? 'Pro Subscription' : 'Free Plan'}
               </span>
             </div>
 
-            <div className="flex items-center gap-4 bg-slate-950/40 rounded-xl p-4 border border-slate-900 mb-6">
-              <CreditCard className="h-5 w-5 text-slate-500 flex-shrink-0" />
+            <div className="flex items-center gap-4 bg-slate-100/50 dark:bg-slate-950/40 rounded-xl p-4 border border-slate-200 dark:border-slate-900 mb-6">
+              <CreditCard className="h-5 w-5 text-slate-455 dark:text-slate-500 flex-shrink-0" />
               <div className="flex-1">
-                <span className="text-xs font-semibold text-slate-300">
+                <span className="text-xs font-semibold text-slate-600 dark:text-slate-300">
                   {isPro ? 'Unlimited projects and team seats' : 'Maximum 3 projects and 5 team seats'}
                 </span>
               </div>
@@ -184,10 +186,10 @@ export default function SettingsPage() {
           </div>
 
           {/* Members list */}
-          <div className="border border-slate-900 bg-slate-900/20 rounded-2xl p-6">
+          <div className="border border-slate-200 dark:border-slate-900 bg-white dark:bg-slate-900/20 rounded-2xl p-6 shadow-sm">
             <div className="flex items-center justify-between mb-6">
               <div>
-                <h3 className="text-base font-semibold text-slate-200">Workspace Members</h3>
+                <h3 className="text-base font-semibold text-slate-800 dark:text-slate-200">Workspace Members</h3>
                 <p className="text-xs text-slate-500 mt-1">
                   Invite your colleagues to join and collaborate on board tasks.
                 </p>
@@ -199,25 +201,25 @@ export default function SettingsPage() {
 
             {isMembersLoading ? (
               <div className="flex flex-col gap-3">
-                <div className="h-10 rounded-xl bg-slate-900/30 animate-pulse" />
-                <div className="h-10 rounded-xl bg-slate-900/30 animate-pulse" />
+                <div className="h-10 rounded-xl bg-slate-200/50 dark:bg-slate-900/30 animate-pulse" />
+                <div className="h-10 rounded-xl bg-slate-200/50 dark:bg-slate-900/30 animate-pulse" />
               </div>
             ) : members.length === 0 ? (
-              <div className="text-center py-8 border border-dashed border-slate-900 rounded-xl">
-                <Users className="h-8 w-8 text-slate-800 mx-auto mb-2" />
-                <span className="text-xs text-slate-600">No active members found</span>
+              <div className="text-center py-8 border border-dashed border-slate-300 dark:border-slate-900 rounded-xl">
+                <Users className="h-8 w-8 text-slate-400 dark:text-slate-800 mx-auto mb-2" />
+                <span className="text-xs text-slate-500 dark:text-slate-600">No active members found</span>
               </div>
             ) : (
               <div className="flex flex-col gap-3">
                 {members.map((member: any) => (
-                  <div key={member.id} className="flex items-center justify-between p-3 rounded-xl border border-slate-900/50 bg-slate-950/20">
+                  <div key={member.id} className="flex items-center justify-between p-3 rounded-xl border border-slate-200 dark:border-slate-900/50 bg-slate-100/50 dark:bg-slate-950/20">
                     <div className="flex flex-col">
-                      <span className="text-sm font-semibold text-slate-300">
+                      <span className="text-sm font-semibold text-slate-700 dark:text-slate-300">
                         {member.user?.name || member.user?.email}
                       </span>
                       <span className="text-3xs text-slate-500 font-semibold">{member.user?.email}</span>
                     </div>
-                    <span className="text-3xs font-bold uppercase tracking-wider text-slate-400 bg-slate-900/80 px-2.5 py-1 rounded-lg">
+                    <span className="text-3xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 bg-slate-200 dark:bg-slate-900/80 px-2.5 py-1 rounded-lg">
                       {member.role}
                     </span>
                   </div>

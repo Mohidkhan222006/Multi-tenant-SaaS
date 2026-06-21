@@ -4,12 +4,14 @@ import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useSession, signOut } from 'next-auth/react';
 import { useBoardStore } from '@/stores/useBoardStore';
-import { LayoutGrid, FolderPlus, LogOut, Briefcase, Plus, User } from 'lucide-react';
+import { FolderPlus, LogOut, Briefcase, Plus, User, Sun, Moon } from 'lucide-react';
 import Button from '../ui/Button';
+import { useTheme } from '@/providers/ThemeProvider';
 
 export default function Sidebar() {
   const { data: session } = useSession();
   const { selectedProjectId, setSelectedProjectId, setCreateProjectOpen } = useBoardStore();
+  const { theme, toggleTheme } = useTheme();
 
   const { data: projectsData, isLoading } = useQuery({
     queryKey: ['projects'],
@@ -31,14 +33,14 @@ export default function Sidebar() {
   }, [projects, selectedProjectId, setSelectedProjectId]);
 
   return (
-    <aside className="w-64 border-r border-slate-900 bg-slate-950/50 flex flex-col h-full select-none">
+    <aside className="w-64 border-r border-slate-200/60 dark:border-slate-900/60 bg-slate-50/90 dark:bg-slate-950/70 backdrop-blur-lg flex flex-col h-full select-none transition-all duration-300">
       {/* Brand / Organization Banner */}
-      <div className="p-6 border-b border-slate-900 flex items-center gap-3">
-        <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-zinc-700 to-slate-800 flex items-center justify-center font-bold text-white shadow-md shadow-slate-950/30">
+      <div className="p-6 border-b border-slate-200/60 dark:border-slate-900/60 flex items-center gap-3">
+        <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-zinc-700 via-slate-800 to-zinc-900 flex items-center justify-center font-bold text-white shadow-md shadow-slate-200/20 dark:shadow-slate-950/30">
           A
         </div>
         <div className="flex flex-col overflow-hidden">
-          <span className="text-sm font-semibold text-slate-100 truncate">
+          <span className="text-sm font-semibold text-slate-800 dark:text-slate-100 truncate">
             {session?.user?.name || 'My Workplace'}
           </span>
           <span className="text-xs text-slate-500 font-medium tracking-wider uppercase">
@@ -51,12 +53,12 @@ export default function Sidebar() {
       <div className="flex-1 overflow-y-auto px-4 py-6 flex flex-col gap-6">
         <div>
           <div className="flex items-center justify-between px-2 mb-3">
-            <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">
+            <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">
               Projects
             </span>
             <button
               onClick={() => setCreateProjectOpen(true)}
-              className="p-1 rounded-lg hover:bg-slate-800 text-slate-400 hover:text-slate-100 transition-colors focus:outline-none"
+              className="p-1 rounded-lg hover:bg-slate-200/80 dark:hover:bg-slate-850/80 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-100 transition-all duration-200 hover:scale-105 active:scale-95 focus:outline-none"
               title="Create Project"
             >
               <Plus className="h-4 w-4" />
@@ -65,11 +67,11 @@ export default function Sidebar() {
 
           {isLoading ? (
             <div className="flex flex-col gap-2 px-2">
-              <div className="h-8 rounded-lg bg-slate-900/50 animate-pulse" />
-              <div className="h-8 rounded-lg bg-slate-900/50 animate-pulse" />
+              <div className="h-8 rounded-lg bg-slate-250/50 dark:bg-slate-900/50 animate-pulse" />
+              <div className="h-8 rounded-lg bg-slate-250/50 dark:bg-slate-900/50 animate-pulse" />
             </div>
           ) : projects.length === 0 ? (
-            <div className="px-2 py-4 rounded-xl border border-dashed border-slate-900 text-center flex flex-col items-center gap-2">
+            <div className="px-2 py-4 rounded-xl border border-dashed border-slate-300 dark:border-slate-800 text-center flex flex-col items-center gap-2">
               <span className="text-xs text-slate-500">No projects yet</span>
               <Button
                 variant="ghost"
@@ -88,13 +90,13 @@ export default function Sidebar() {
                   <li key={project.id}>
                     <button
                       onClick={() => setSelectedProjectId(project.id)}
-                      className={`w-full flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-xl transition-all duration-200 focus:outline-none ${
+                      className={`w-full flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-xl transition-all duration-300 focus:outline-none ${
                         isActive
-                          ? 'bg-slate-800/80 text-zinc-400 border border-slate-700/50'
-                          : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900/50 border border-transparent'
+                          ? 'bg-white dark:bg-slate-800/80 text-slate-900 dark:text-zinc-100 border border-slate-200/80 dark:border-slate-700/50 shadow-sm shadow-slate-200/50 dark:shadow-none translate-x-1 font-semibold'
+                          : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-200/50 dark:hover:bg-slate-900/50 border border-transparent hover:translate-x-0.5'
                       }`}
                     >
-                      <Briefcase className={`h-4 w-4 ${isActive ? 'text-zinc-400' : 'text-slate-500'}`} />
+                      <Briefcase className={`h-4 w-4 transition-transform duration-200 ${isActive ? 'text-slate-700 dark:text-zinc-400 scale-105' : 'text-slate-400 dark:text-slate-500'}`} />
                       <span className="truncate">{project.name}</span>
                     </button>
                   </li>
@@ -106,24 +108,34 @@ export default function Sidebar() {
       </div>
 
       {/* User Section / Sign Out */}
-      <div className="p-4 border-t border-slate-900 bg-slate-950/20 flex items-center justify-between">
-        <div className="flex items-center gap-3 overflow-hidden">
-          <div className="w-8 h-8 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-300">
+      <div className="p-4 border-t border-slate-200/60 dark:border-slate-900/60 bg-slate-100/30 dark:bg-slate-950/30 flex items-center justify-between gap-2">
+        <div className="flex items-center gap-3 overflow-hidden flex-1">
+          <div className="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-900 border border-slate-350 dark:border-slate-800 flex items-center justify-center text-slate-655 dark:text-slate-300 flex-shrink-0">
             <User className="h-4 w-4" />
           </div>
           <div className="flex flex-col overflow-hidden">
-            <span className="text-xs font-semibold text-slate-300 truncate">
+            <span className="text-xs font-semibold text-slate-700 dark:text-slate-300 truncate">
               {session?.user?.email}
             </span>
           </div>
         </div>
-        <button
-          onClick={() => signOut({ callbackUrl: '/login' })}
-          className="p-2 rounded-xl text-slate-400 hover:text-rose-400 hover:bg-rose-950/10 transition-all focus:outline-none"
-          title="Sign Out"
-        >
-          <LogOut className="h-4.5 w-4.5" />
-        </button>
+        
+        <div className="flex items-center gap-1">
+          <button
+            onClick={toggleTheme}
+            className="p-2 rounded-xl text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-100 hover:bg-slate-200 dark:hover:bg-slate-850 hover:rotate-45 active:scale-90 transition-all duration-300 focus:outline-none"
+            title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+          >
+            {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+          </button>
+          <button
+            onClick={() => signOut({ callbackUrl: '/login' })}
+            className="p-2 rounded-xl text-slate-500 dark:text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-100 dark:hover:bg-rose-955/10 transition-all active:scale-95 focus:outline-none"
+            title="Sign Out"
+          >
+            <LogOut className="h-4.5 w-4.5" />
+          </button>
+        </div>
       </div>
     </aside>
   );

@@ -69,17 +69,17 @@ export default function OnboardingPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-950 px-4 select-none relative overflow-hidden font-sans">
+    <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-950 px-4 select-none relative overflow-hidden font-sans transition-colors duration-200">
       {/* Background Glows */}
-      <div className="absolute top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-zinc-800/10 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-1/4 right-1/4 translate-x-1/2 translate-y-1/2 w-[500px] h-[500px] bg-slate-800/10 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-zinc-300/20 dark:bg-zinc-800/10 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-1/4 right-1/4 translate-x-1/2 translate-y-1/2 w-[500px] h-[500px] bg-slate-300/20 dark:bg-slate-800/10 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="w-full max-w-md relative z-10">
         <div className="text-center mb-8">
           <div className="inline-flex w-12 h-12 rounded-2xl bg-gradient-to-tr from-zinc-700 to-slate-800 items-center justify-center font-extrabold text-lg text-white shadow-xl shadow-slate-950/30 mb-4">
             <Sparkles className="h-5.5 w-5.5 text-white" />
           </div>
-          <h2 className="text-2xl font-bold tracking-tight text-slate-100">
+          <h2 className="text-2xl font-bold tracking-tight text-slate-800 dark:text-slate-100">
             Set up your Organization
           </h2>
           <p className="text-sm text-slate-500 mt-2 font-medium">
@@ -87,7 +87,7 @@ export default function OnboardingPage() {
           </p>
         </div>
 
-        <div className="border border-slate-900 bg-slate-900/35 backdrop-blur-md rounded-2xl p-8 shadow-2xl">
+        <div className="border border-slate-200 dark:border-slate-900 bg-white/80 dark:bg-slate-900/35 backdrop-blur-md rounded-2xl p-8 shadow-2xl transition-colors duration-200">
           <form onSubmit={handleSubmit} className="flex flex-col gap-5">
             {error && (
               <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/20 text-xs font-medium text-rose-400 flex items-center gap-2">

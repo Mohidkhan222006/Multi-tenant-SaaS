@@ -39,24 +39,24 @@ export default class ErrorBoundary extends Component<Props, State> {
   public render() {
     if (this.state.hasError) {
       return (
-        <div className="min-h-screen flex items-center justify-center bg-slate-950 px-4 select-none relative overflow-hidden font-sans text-center">
+        <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-950 px-4 select-none relative overflow-hidden font-sans text-center transition-colors duration-200">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-rose-600/10 rounded-full blur-[100px] pointer-events-none" />
 
-          <div className="w-full max-w-md relative z-10 border border-slate-900 bg-slate-900/35 backdrop-blur-md rounded-2xl p-8 shadow-2xl">
+          <div className="w-full max-w-md relative z-10 border border-slate-200 dark:border-slate-900 bg-white/85 dark:bg-slate-900/35 backdrop-blur-md rounded-2xl p-8 shadow-2xl">
             <div className="inline-flex w-12 h-12 rounded-2xl bg-rose-500/10 border border-rose-500/20 items-center justify-center text-rose-400 mb-6">
               <AlertTriangle className="h-6 w-6" />
             </div>
 
-            <h2 className="text-xl font-bold text-slate-100 mb-2">
+            <h2 className="text-xl font-bold text-slate-800 dark:text-slate-100 mb-2">
               Application Error
             </h2>
 
-            <p className="text-sm text-slate-400 max-w-xs mx-auto mb-8 leading-relaxed">
+            <p className="text-sm text-slate-500 dark:text-slate-400 max-w-xs mx-auto mb-8 leading-relaxed">
               An unexpected error occurred in this workspace view. Don't worry, your progress has been auto-saved.
             </p>
 
             {process.env.NODE_ENV === 'development' && this.state.error && (
-              <div className="mb-6 p-4 rounded-xl bg-slate-950/80 border border-slate-800 text-left overflow-x-auto text-3xs font-mono text-rose-400 max-h-40">
+              <div className="mb-6 p-4 rounded-xl bg-slate-100 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800 text-left overflow-x-auto text-3xs font-mono text-rose-650 dark:text-rose-400 max-h-40">
                 {this.state.error.toString()}
                 <br />
                 {this.state.error.stack}

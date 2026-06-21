@@ -159,17 +159,17 @@ export default function KanbanBoard() {
   };
 
   const priorityColors = {
-    low: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
-    medium: 'bg-amber-500/10 text-amber-400 border-amber-500/20',
-    high: 'bg-orange-500/10 text-orange-400 border-orange-500/20',
-    urgent: 'bg-rose-500/10 text-rose-400 border-rose-500/20',
+    low: 'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-emerald-250 dark:border-emerald-500/20',
+    medium: 'bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-250 dark:border-amber-500/20',
+    high: 'bg-orange-50 dark:bg-orange-500/10 text-orange-700 dark:text-orange-400 border-orange-250 dark:border-orange-500/20',
+    urgent: 'bg-rose-50 dark:bg-rose-500/10 text-rose-700 dark:text-rose-400 border-rose-250 dark:border-rose-500/20',
   };
 
   if (!selectedProjectId) {
     return (
-      <div className="flex-1 flex flex-col items-center justify-center bg-slate-950 p-8 text-center select-none">
-        <SlidersHorizontal className="h-10 w-10 text-slate-700 mb-4 animate-pulse" />
-        <h3 className="text-lg font-semibold text-slate-300">Select or Create a Project</h3>
+      <div className="flex-1 flex flex-col items-center justify-center bg-slate-50 dark:bg-slate-950 p-8 text-center select-none">
+        <SlidersHorizontal className="h-10 w-10 text-slate-400 dark:text-slate-700 mb-4 animate-pulse" />
+        <h3 className="text-lg font-semibold text-slate-800 dark:text-slate-300">Select or Create a Project</h3>
         <p className="text-sm text-slate-500 max-w-sm mt-2">
           Choose a project from the sidebar to manage your task columns and track milestones.
         </p>
@@ -179,29 +179,29 @@ export default function KanbanBoard() {
 
   if (isLoading) {
     return (
-      <div className="flex-1 p-8 overflow-x-auto flex flex-col gap-6 bg-slate-950 select-none">
-        <div className="h-8 w-48 rounded bg-slate-900 animate-pulse" />
+      <div className="flex-1 p-8 overflow-x-auto flex flex-col gap-6 bg-slate-50 dark:bg-slate-950 select-none">
+        <div className="h-8 w-48 rounded bg-slate-200 dark:bg-slate-900 animate-pulse" />
         <div className="flex gap-6 h-full">
-          <div className="w-80 flex-shrink-0 bg-slate-900/20 rounded-2xl h-[500px] animate-pulse" />
-          <div className="w-80 flex-shrink-0 bg-slate-900/20 rounded-2xl h-[500px] animate-pulse" />
-          <div className="w-80 flex-shrink-0 bg-slate-900/20 rounded-2xl h-[500px] animate-pulse" />
+          <div className="w-80 flex-shrink-0 bg-slate-200/50 dark:bg-slate-900/20 rounded-2xl h-[500px] animate-pulse" />
+          <div className="w-80 flex-shrink-0 bg-slate-200/50 dark:bg-slate-900/20 rounded-2xl h-[500px] animate-pulse" />
+          <div className="w-80 flex-shrink-0 bg-slate-200/50 dark:bg-slate-900/20 rounded-2xl h-[500px] animate-pulse" />
         </div>
       </div>
     );
   }
 
   return (
-    <div className="flex-1 flex flex-col overflow-hidden bg-slate-950/80">
+    <div className="flex-1 flex flex-col overflow-hidden bg-transparent">
       {/* Control Bar (Filters & Search) */}
-      <div className="px-8 py-4 border-b border-slate-900/50 flex flex-col sm:flex-row items-center justify-between gap-4 select-none">
+      <div className="px-8 py-4 border-b border-slate-200/60 dark:border-slate-900/50 flex flex-col sm:flex-row items-center justify-between gap-4 select-none bg-white/60 dark:bg-slate-950/30 backdrop-blur-md sticky top-0 z-20 transition-all duration-300">
         <div className="relative w-full sm:max-w-xs">
-          <Search className="absolute left-3 top-3 h-4.5 w-4.5 text-slate-500" />
+          <Search className="absolute left-3 top-3.5 h-4 w-4 text-slate-400 dark:text-slate-500" />
           <input
             type="text"
             placeholder="Search tasks..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-800 bg-slate-900/30 text-sm text-slate-100 placeholder-slate-500 outline-none focus:ring-2 focus:ring-zinc-700/50 transition-all duration-200"
+            className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/30 text-sm text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 outline-none focus:ring-2 focus:ring-zinc-500/50 dark:focus:ring-zinc-700/50 transition-all duration-200"
           />
         </div>
 
@@ -215,8 +215,8 @@ export default function KanbanBoard() {
                 onClick={() => setPriorityFilter(isActive ? null : priority)}
                 className={`px-3 py-1.5 rounded-xl text-xs font-semibold uppercase tracking-wider border transition-all duration-200 focus:outline-none ${
                   isActive
-                    ? 'bg-zinc-800 border-zinc-700 text-white shadow-md shadow-slate-950/40'
-                    : 'bg-slate-900/50 border-slate-800 text-slate-400 hover:text-slate-200 hover:border-slate-700'
+                    ? 'bg-zinc-200 dark:bg-zinc-800 border-zinc-300 dark:border-zinc-700 text-slate-800 dark:text-white shadow-md dark:shadow-slate-950/40'
+                    : 'bg-white dark:bg-slate-900/50 border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:border-slate-300 dark:hover:border-slate-700'
                 }`}
               >
                 {priority}
@@ -227,7 +227,7 @@ export default function KanbanBoard() {
           {(priorityFilter || searchQuery) && (
             <button
               onClick={resetFilters}
-              className="text-xs font-semibold text-slate-500 hover:text-slate-300 transition-colors focus:outline-none ml-2"
+              className="text-xs font-semibold text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 transition-colors focus:outline-none ml-2"
             >
               Clear
             </button>
@@ -251,13 +251,13 @@ export default function KanbanBoard() {
               key={col.id}
               onDragOver={handleDragOver}
               onDrop={(e) => handleDropOnColumn(e, col.id)}
-              className="w-80 flex-shrink-0 flex flex-col max-h-full bg-slate-900/10 border border-slate-900 rounded-2xl p-4 transition-all duration-200"
+              className="w-80 flex-shrink-0 flex flex-col max-h-full bg-slate-200/30 dark:bg-slate-900/15 border border-slate-200/80 dark:border-slate-900/85 rounded-2xl p-4 transition-all duration-300 shadow-sm"
             >
               {/* Column Header */}
               <div className="flex items-center justify-between mb-4 px-1 select-none">
                 <div className="flex items-center gap-2">
-                  <span className="text-sm font-semibold text-slate-200">{col.name}</span>
-                  <span className="text-xs font-bold text-slate-500 bg-slate-900/80 px-2 py-0.5 rounded-full">
+                  <span className="text-sm font-semibold text-slate-800 dark:text-slate-200">{col.name}</span>
+                  <span className="text-xs font-bold text-slate-500 dark:text-slate-400 bg-slate-200 dark:bg-slate-900/80 px-2 py-0.5 rounded-full">
                     {filteredTasks.length}
                   </span>
                 </div>
@@ -266,7 +266,7 @@ export default function KanbanBoard() {
                     setSelectedColumnId(col.id);
                     setCreateTaskOpen(true);
                   }}
-                  className="p-1 rounded-lg hover:bg-slate-800 text-slate-400 hover:text-slate-200 transition-colors focus:outline-none"
+                  className="p-1 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 transition-colors focus:outline-none"
                 >
                   <Plus className="h-4 w-4" />
                 </button>
@@ -281,7 +281,7 @@ export default function KanbanBoard() {
                     onDragStart={(e) => handleDragStart(e, task.id)}
                     onDragOver={handleDragOver}
                     onDrop={(e) => handleDropOnTask(e, col.id, task.id, index)}
-                    className="group relative bg-slate-900/40 border border-slate-800/80 rounded-xl p-4 shadow-sm hover:border-slate-700/80 hover:shadow-md hover:shadow-slate-950/20 transition-all duration-200 cursor-grab active:cursor-grabbing"
+                    className="group relative bg-white dark:bg-slate-900/40 border border-slate-200/60 dark:border-slate-800/80 rounded-xl p-4 shadow-sm hover:border-slate-300 dark:hover:border-slate-750 hover:-translate-y-0.5 hover:shadow-md dark:hover:shadow-slate-950/40 transition-all duration-300 cursor-grab active:cursor-grabbing"
                   >
                     {/* Priority Badge */}
                     <div className="flex items-center justify-between mb-2">
@@ -290,25 +290,25 @@ export default function KanbanBoard() {
                       </span>
                       <button
                         onClick={() => deleteTaskMutation.mutate(task.id)}
-                        className="opacity-0 group-hover:opacity-100 p-1 text-slate-500 hover:text-rose-400 hover:bg-rose-950/10 rounded-lg transition-all focus:outline-none"
+                        className="opacity-0 group-hover:opacity-100 p-1 text-slate-400 dark:text-slate-500 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-100 dark:hover:bg-rose-950/10 rounded-lg transition-all focus:outline-none"
                         title="Delete Task"
                       >
                         <Trash2 className="h-3.5 w-3.5" />
                       </button>
                     </div>
 
-                    <h4 className="text-sm font-semibold text-slate-200 mb-1 tracking-tight leading-snug">
+                    <h4 className="text-sm font-semibold text-slate-800 dark:text-slate-200 mb-1 tracking-tight leading-snug">
                       {task.title}
                     </h4>
 
                     {task.description && (
-                      <p className="text-xs text-slate-500 line-clamp-2 mb-3">
+                      <p className="text-xs text-slate-500 dark:text-slate-400 line-clamp-2 mb-3">
                         {task.description}
                       </p>
                     )}
 
                     {/* Meta info */}
-                    <div className="flex items-center gap-3 text-3xs font-semibold text-slate-500 select-none">
+                    <div className="flex items-center gap-3 text-3xs font-semibold text-slate-400 dark:text-slate-500 select-none">
                       {task.dueDate && (
                         <div className="flex items-center gap-1">
                           <Calendar className="h-3 w-3" />
@@ -321,8 +321,8 @@ export default function KanbanBoard() {
 
                 {filteredTasks.length === 0 && (
                   <div className="flex-1 flex flex-col items-center justify-center py-8 text-center select-none">
-                    <CheckCircle2 className="h-7 w-7 text-slate-800 mb-2" />
-                    <span className="text-xs text-slate-600">No tasks here</span>
+                    <CheckCircle2 className="h-7 w-7 text-slate-300 dark:text-slate-800 mb-2" />
+                    <span className="text-xs text-slate-400 dark:text-slate-600">No tasks here</span>
                   </div>
                 )}
               </div>
