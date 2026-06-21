@@ -1,0 +1,232 @@
+datasource db {
+  provider = "sqlite"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id            String               @id @default(uuid())
+  name          String?
+  email         String               @unique
+  emailVerified DateTime?            @map("email_verified")
+  image         String?              @map("avatar_url")
+  passwordHash  String?              @map("password_hash")
+  createdAt     DateTime             @default(now()) @map("created_at")
+  updatedAt     DateTime             @updatedAt @map("updated_at")
+  accounts      Account[]
+  sessions      Session[]
+  memberships   OrganizationMember[]
+  comments      Comment[]
+  attachments   Attachment[]
+  activityLogs  ActivityLog[]
+  notifications Notification[]
+
+  @@map("users")
+}
+
+model Account {
+  id                String  @id @default(uuid())
+  userId            String  @map("user_id")
+  type              String
+  provider          String
+  providerAccountId String  @map("provider_account_id")
+  refreshToken      String? @map("refresh_token")
+  accessToken       String? @map("access_token")
+  expiresAt         Int?    @map("expires_at")
+  tokenType         String? @map("token_type")
+  scope             String?
+  idToken           String? @map("id_token")
+  sessionState      String? @map("session_state")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(uuid())
+  sessionToken String   @unique @map("session_token")
+  userId       String   @map("user_id")
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verification_tokens")
+}
+
+model Organization {
+  id               String               @id @default(uuid())
+  name             String
+  slug             String               @unique
+  logoUrl          String?              @map("logo_url")
+  stripeCustomerId String?              @map("stripe_customer_id")
+  plan             String               @default("free")
+  createdAt        DateTime             @default(now()) @map("created_at")
+  updatedAt        DateTime             @updatedAt @map("updated_at")
+  members          OrganizationMember[]
+  invites          Invite[]
+  projects         Project[]
+  tasks            Task[]
+  activityLogs     ActivityLog[]
+  subscriptions    Subscription[]
+
+  @@map("organizations")
+}
+
+model OrganizationMember {
+  id             String       @id @default(uuid())
+  userId         String       @map("user_id")
+  organizationId String       @map("organization_id")
+  role           String       // "owner" | "admin" | "member"
+  joinedAt       DateTime     @default(now()) @map("joined_at")
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, organizationId])
+  @@map("organization_members")
+}
+
+model Invite {
+  id             String       @id @default(uuid())
+  organizationId String       @map("organization_id")
+  email          String
+  role           String       // "admin" | "member"
+  token          String       @unique
+  expiresAt      DateTime     @map("expires_at")
+  status         String       @default("pending") // "pending" | "accepted" | "revoked"
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@map("invites")
+}
+
+model Project {
+  id             String       @id @default(uuid())
+  organizationId String       @map("organization_id")
+  name           String
+  description    String?
+  status         String       @default("active") // "active" | "archived"
+  createdBy      String       @map("created_by")
+  createdAt      DateTime     @default(now()) @map("created_at")
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  boards         Board[]
+  tasks          Task[]
+
+  @@map("projects")
+}
+
+model Board {
+  id        String   @id @default(uuid())
+  projectId String   @map("project_id")
+  name      String
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  columns   Column[]
+
+  @@map("boards")
+}
+
+model Column {
+  id       String @id @default(uuid())
+  boardId  String @map("board_id")
+  name     String
+  position Int
+  board    Board  @relation(fields: [boardId], references: [id], onDelete: Cascade)
+  tasks    Task[]
+
+  @@map("columns")
+}
+
+model Task {
+  id             String       @id @default(uuid())
+  columnId       String       @map("column_id")
+  projectId      String       @map("project_id")
+  organizationId String       @map("organization_id")
+  title          String
+  description    String?
+  assigneeId     String?      @map("assignee_id")
+  priority       String       @default("medium") // "low" | "medium" | "high" | "urgent"
+  dueDate        DateTime?    @map("due_date")
+  position       Int
+  createdAt      DateTime     @default(now()) @map("created_at")
+  column         Column       @relation(fields: [columnId], references: [id], onDelete: Cascade)
+  project        Project      @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  comments       Comment[]
+  attachments    Attachment[]
+
+  @@map("tasks")
+}
+
+model Comment {
+  id        String   @id @default(uuid())
+  taskId    String   @map("task_id")
+  userId    String   @map("user_id")
+  body      String
+  createdAt DateTime @default(now()) @map("created_at")
+  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("comments")
+}
+
+model Attachment {
+  id         String   @id @default(uuid())
+  taskId     String   @map("task_id")
+  fileUrl    String   @map("file_url")
+  fileName   String   @map("file_name")
+  uploadedBy String   @map("uploaded_by")
+  createdAt  DateTime @default(now()) @map("created_at")
+  task       Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  user       User     @relation(fields: [uploadedBy], references: [id], onDelete: Cascade)
+
+  @@map("attachments")
+}
+
+model ActivityLog {
+  id             String       @id @default(uuid())
+  organizationId String       @map("organization_id")
+  actorId        String       @map("actor_id")
+  action         String
+  targetType     String       @map("target_type")
+  targetId       String       @map("target_id")
+  metadata       Json?
+  createdAt      DateTime     @default(now()) @map("created_at")
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  actor          User         @relation(fields: [actorId], references: [id], onDelete: Cascade)
+
+  @@map("activity_logs")
+}
+
+model Subscription {
+  id                   String       @id @default(uuid())
+  organizationId       String       @map("organization_id")
+  stripeSubscriptionId String       @unique @map("stripe_subscription_id")
+  plan                 String
+  status               String
+  currentPeriodEnd     DateTime     @map("current_period_end")
+  organization         Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@map("subscriptions")
+}
+
+model Notification {
+  id        String    @id @default(uuid())
+  userId    String    @map("user_id")
+  type      String
+  payload   Json
+  readAt    DateTime? @map("read_at")
+  createdAt DateTime  @default(now()) @map("created_at")
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("notifications")
+}
