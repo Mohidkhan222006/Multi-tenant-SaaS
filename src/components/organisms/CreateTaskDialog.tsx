@@ -92,7 +92,7 @@ export default function CreateTaskDialog() {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             disabled={createTaskMutation.isPending}
-            className="w-full rounded-xl border border-slate-800 bg-slate-950 px-4 py-2.5 text-sm text-slate-100 placeholder-slate-500 outline-none focus:ring-2 focus:ring-violet-500/50 transition-all duration-200"
+            className="w-full rounded-xl border border-slate-800 bg-slate-950 px-4 py-2.5 text-sm text-slate-100 placeholder-slate-500 outline-none focus:ring-2 focus:ring-zinc-700/50 transition-all duration-200"
             rows={3}
           />
         </div>

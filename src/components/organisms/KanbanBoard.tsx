@@ -201,7 +201,7 @@ export default function KanbanBoard() {
             placeholder="Search tasks..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-800 bg-slate-900/30 text-sm text-slate-100 placeholder-slate-500 outline-none focus:ring-2 focus:ring-violet-500/50 transition-all duration-200"
+            className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-800 bg-slate-900/30 text-sm text-slate-100 placeholder-slate-500 outline-none focus:ring-2 focus:ring-zinc-700/50 transition-all duration-200"
           />
         </div>
 
@@ -215,7 +215,7 @@ export default function KanbanBoard() {
                 onClick={() => setPriorityFilter(isActive ? null : priority)}
                 className={`px-3 py-1.5 rounded-xl text-xs font-semibold uppercase tracking-wider border transition-all duration-200 focus:outline-none ${
                   isActive
-                    ? 'bg-violet-600 border-violet-500 text-white shadow-md shadow-violet-950/30'
+                    ? 'bg-zinc-800 border-zinc-700 text-white shadow-md shadow-slate-950/40'
                     : 'bg-slate-900/50 border-slate-800 text-slate-400 hover:text-slate-200 hover:border-slate-700'
                 }`}
               >

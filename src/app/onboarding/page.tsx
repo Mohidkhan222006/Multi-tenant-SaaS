@@ -71,12 +71,12 @@ export default function OnboardingPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-950 px-4 select-none relative overflow-hidden font-sans">
       {/* Background Glows */}
-      <div className="absolute top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-violet-600/10 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-1/4 right-1/4 translate-x-1/2 translate-y-1/2 w-[500px] h-[500px] bg-indigo-600/10 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-zinc-800/10 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-1/4 right-1/4 translate-x-1/2 translate-y-1/2 w-[500px] h-[500px] bg-slate-800/10 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="w-full max-w-md relative z-10">
         <div className="text-center mb-8">
-          <div className="inline-flex w-12 h-12 rounded-2xl bg-gradient-to-tr from-violet-600 to-indigo-600 items-center justify-center font-extrabold text-lg text-white shadow-xl shadow-violet-950/20 mb-4">
+          <div className="inline-flex w-12 h-12 rounded-2xl bg-gradient-to-tr from-zinc-700 to-slate-800 items-center justify-center font-extrabold text-lg text-white shadow-xl shadow-slate-950/30 mb-4">
             <Sparkles className="h-5.5 w-5.5 text-white" />
           </div>
           <h2 className="text-2xl font-bold tracking-tight text-slate-100">

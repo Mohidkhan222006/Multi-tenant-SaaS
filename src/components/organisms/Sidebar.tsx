@@ -34,7 +34,7 @@ export default function Sidebar() {
     <aside className="w-64 border-r border-slate-900 bg-slate-950/50 flex flex-col h-full select-none">
       {/* Brand / Organization Banner */}
       <div className="p-6 border-b border-slate-900 flex items-center gap-3">
-        <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-violet-600 to-indigo-600 flex items-center justify-center font-bold text-white shadow-md shadow-violet-950/20">
+        <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-zinc-700 to-slate-800 flex items-center justify-center font-bold text-white shadow-md shadow-slate-950/30">
           A
         </div>
         <div className="flex flex-col overflow-hidden">
@@ -90,11 +90,11 @@ export default function Sidebar() {
                       onClick={() => setSelectedProjectId(project.id)}
                       className={`w-full flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-xl transition-all duration-200 focus:outline-none ${
                         isActive
-                          ? 'bg-slate-800/80 text-violet-400 border border-slate-700/50'
+                          ? 'bg-slate-800/80 text-zinc-400 border border-slate-700/50'
                           : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900/50 border border-transparent'
                       }`}
                     >
-                      <Briefcase className={`h-4 w-4 ${isActive ? 'text-violet-400' : 'text-slate-500'}`} />
+                      <Briefcase className={`h-4 w-4 ${isActive ? 'text-zinc-400' : 'text-slate-500'}`} />
                       <span className="truncate">{project.name}</span>
                     </button>
                   </li>

@@ -131,7 +131,7 @@ export default function SettingsPage() {
         {/* Navigation Sidebar */}
         <div className="flex flex-col gap-1">
           <h2 className="text-xl font-bold tracking-tight text-slate-100 mb-6">Workspace Settings</h2>
-          <div className="px-3 py-2 rounded-xl bg-slate-900/40 text-violet-400 border border-slate-800 text-sm font-semibold flex items-center gap-3">
+          <div className="px-3 py-2 rounded-xl bg-slate-900/40 text-zinc-400 border border-slate-800 text-sm font-semibold flex items-center gap-3">
             <Shield className="h-4.5 w-4.5" /> General & Members
           </div>
         </div>
@@ -148,7 +148,7 @@ export default function SettingsPage() {
                 </p>
               </div>
               <span className={`px-2.5 py-1 rounded-xl text-3xs font-extrabold uppercase tracking-wider border ${
-                isPro ? 'bg-violet-600/10 border-violet-500/20 text-violet-400' : 'bg-slate-900 border-slate-800 text-slate-400'
+                isPro ? 'bg-zinc-800/10 border-zinc-700/20 text-zinc-400' : 'bg-slate-900 border-slate-800 text-slate-400'
               }`}>
                 {isPro ? 'Pro Subscription' : 'Free Plan'}
               </span>
