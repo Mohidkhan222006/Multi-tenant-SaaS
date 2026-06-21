@@ -1,10 +1,10 @@
 'use client';
 
 import React from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useSession, signOut } from 'next-auth/react';
 import { useBoardStore } from '@/stores/useBoardStore';
-import { FolderPlus, LogOut, Briefcase, Plus, User, Sun, Moon } from 'lucide-react';
+import { FolderPlus, LogOut, Briefcase, Plus, User, Sun, Moon, Trash2 } from 'lucide-react';
 import Button from '../ui/Button';
 import { useTheme } from '@/providers/ThemeProvider';
 
@@ -12,6 +12,7 @@ export default function Sidebar() {
   const { data: session } = useSession();
   const { selectedProjectId, setSelectedProjectId, setCreateProjectOpen } = useBoardStore();
   const { theme, toggleTheme } = useTheme();
+  const queryClient = useQueryClient();
 
   const { data: projectsData, isLoading } = useQuery({
     queryKey: ['projects'],
@@ -31,6 +32,33 @@ export default function Sidebar() {
       setSelectedProjectId(projects[0].id);
     }
   }, [projects, selectedProjectId, setSelectedProjectId]);
+
+  const deleteProjectMutation = useMutation({
+    mutationFn: async (projectId: string) => {
+      const res = await fetch(`/api/projects/${projectId}`, {
+        method: 'DELETE',
+      });
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.error || 'Failed to delete project');
+      }
+      return res.json();
+    },
+    onSuccess: (_, deletedId) => {
+      queryClient.invalidateQueries({ queryKey: ['projects'] });
+      // If we deleted the currently selected project, clear it
+      if (selectedProjectId === deletedId) {
+        setSelectedProjectId('');
+      }
+    },
+  });
+
+  const handleDeleteProject = (e: React.MouseEvent, projectId: string) => {
+    e.stopPropagation();
+    if (confirm('Are you sure you want to delete this project? All columns, tasks, and comments will be permanently deleted.')) {
+      deleteProjectMutation.mutate(projectId);
+    }
+  };
 
   return (
     <aside className="w-64 border-r border-slate-200/60 dark:border-slate-900/60 bg-slate-50/90 dark:bg-slate-950/70 backdrop-blur-lg flex flex-col h-full select-none transition-all duration-300">
@@ -87,10 +115,10 @@ export default function Sidebar() {
               {projects.map((project: any) => {
                 const isActive = selectedProjectId === project.id;
                 return (
-                  <li key={project.id}>
+                  <li key={project.id} className="group/item relative flex items-center">
                     <button
                       onClick={() => setSelectedProjectId(project.id)}
-                      className={`w-full flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-xl transition-all duration-300 focus:outline-none ${
+                      className={`flex-1 flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-xl transition-all duration-300 focus:outline-none pr-10 ${
                         isActive
                           ? 'bg-white dark:bg-slate-800/80 text-slate-900 dark:text-zinc-100 border border-slate-200/80 dark:border-slate-700/50 shadow-sm shadow-slate-200/50 dark:shadow-none translate-x-1 font-semibold'
                           : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-200/50 dark:hover:bg-slate-900/50 border border-transparent hover:translate-x-0.5'
@@ -98,6 +126,17 @@ export default function Sidebar() {
                     >
                       <Briefcase className={`h-4 w-4 transition-transform duration-200 ${isActive ? 'text-slate-700 dark:text-zinc-400 scale-105' : 'text-slate-400 dark:text-slate-500'}`} />
                       <span className="truncate">{project.name}</span>
+                    </button>
+                    
+                    <button
+                      onClick={(e) => handleDeleteProject(e, project.id)}
+                      className={`absolute right-2 opacity-0 group-hover/item:opacity-100 p-1 text-slate-400 dark:text-slate-500 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-100 dark:hover:bg-rose-950/10 rounded-lg transition-all focus:outline-none ${
+                        isActive ? 'translate-x-1' : ''
+                      }`}
+                      title="Delete Project"
+                      disabled={deleteProjectMutation.isPending}
+                    >
+                      <Trash2 className="h-3.5 w-3.5" />
                     </button>
                   </li>
                 );
